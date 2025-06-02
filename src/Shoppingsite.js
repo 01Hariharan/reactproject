@@ -14,6 +14,7 @@ function Shoppingsite() {
       price: 22000,
       desc: "To download drivers, firmware updates, BIOS, and software",
       img: img1,
+      isStock:true,
     },
     {
       id: 2,
@@ -21,6 +22,7 @@ function Shoppingsite() {
       price: 100000,
       desc: "To download drivers, firmware updates, BIOS, and software",
       img: img2,
+      isStock:true,
     },
     {
       id: 3,
@@ -28,6 +30,7 @@ function Shoppingsite() {
       price: 45000,
       desc: "To download drivers, firmware updates, BIOS, and software",
       img: img3,
+      isStock:false,
     },
     {
       id: 4,
@@ -35,16 +38,24 @@ function Shoppingsite() {
       price: 50000,
       desc: "To download drivers, firmware updates, BIOS, and software",
       img: img4,
-    },
+      isStock:true,
+    }
   ];
 
   const [cartItems, setCartItems] = useState([]);
+  const[total, setTotal]=useState(0);
 
   const handleAddToCart = (product) => {
     setCartItems([...cartItems, product])
+    setTotal(total + product.price)
   }
 
-  console.log(cartItems);
+  const handleRemoveFromCart = (item) => { 
+    let filteredItems = cartItems.filter((citem) => citem.id !=item.id);
+    setCartItems(filteredItems);
+    setTotal(total-item.price)
+  }
+
 
   return (
     <div className='container-fluid mainpage'>
@@ -68,16 +79,18 @@ function Shoppingsite() {
                     <div class="fw-bold">{citem.product_name}</div>
                     {citem.price}
                   </div>
-                  <span class="badge text-bg-primary rounded-pill">X</span>
+                  <button class="badge text-bg-primary rounded-pill" onClick={()=>{handleRemoveFromCart(citem)}}>X</button>
                 </li>
               );
             })
           }
+          <h3>Total: {total}</h3>
         </ol>
       </div>
       </div>
     </div>
   
-)}
+);
+}
 
-export default Shoppingsite;
+export default Shoppingsite
